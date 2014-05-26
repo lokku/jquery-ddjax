@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <title>Over the rainbow</title>
+    </head>
+    <body>
+        <div id="ignoredBlock">
+            This block will be ignored because a block with the same id wasn't
+            found in the original page.
+        </div>
+        <div id="djaxableBox1">
+            <div id="section" class="ddjax-this-block">
+                Over the rainbow
+                <a href="index.html">Back</a>
+            </div>
+        </div>
+
+        <ul id="djaxableBox2">
+            <li id="res-pos-1" class="ddjax-this-block">Result5 (position 1)</li>
+            <li id="res-pos-2" class="ddjax-this-block">Result6 (position 2)</li>
+            <li id="res-pos-3" class="ddjax-this-block">Result7 (position 3)</li>
+            <li id="res-pos-4" class="ddjax-this-block">Result8 (position 4)</li>
+            <li id="res-pos-5" class="ddjax-this-block">Result9 (position 5)</li>
+            <li id="res-pos-6" class="ddjax-this-block">Result10 (position 6)</li>
+            <li id="res-desc" class="ddjax-this-block">
+                In this case, the first 4 elements will be replaced with the incoming 4 elements
+                and the ones in position 5 and 6 will be removed.
+            </li>
+            <li id="res-nav" class="ddjax-this-block"><a href="index.html">previous</a></li>
+        </ul>
+    </body>
+</html>

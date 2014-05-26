@@ -1,0 +1,28 @@
+{
+  "name": "ddjax",
+  "title": "Deferred Dynamic PJAX",
+  "description": "Fork of DJAX with deferred DOM replacements",
+  "version": "0.1.0",
+  "homepage": "https://github.com/lokku/ddjax",
+  "author": {
+    "name": "Savio Dimatteo",
+    "email": "darksmo@gmail.com",
+    "company" : "Lokku Ltd.",
+    "url": "http://www.savio.dimatteo.it"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/lokku/ddjax.git"
+  },
+  "bugs": "https://github.com/lokku/ddjax/issues",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/lokku/ddjax/blob/master/LICENSE-MIT"
+    }
+  ],
+  "dependencies": {
+    "jquery": "*"
+  },
+  "keywords": []
+}

@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <style type="text/css" rel="stylesheet">
+            body {
+                color: #333;
+                background: #98D0E1;
+                font-family: tahoma, arial;
+            }
+            .hl {
+                background: lightyellow;
+            }
+            .ddjax-this-block {
+                padding: 3px;
+            }
+            .block {
+                border: 6px solid #F5DBE8;
+                background-color: white;
+                width: 460px;
+                padding: 2em;
+                margin: 1em auto;
+            }
+        </style>
+        <title>Somewhere</title>
+    </head>
+    <body>
+        <div id="djaxableBox1" class="block">
+
+            <h1>Deferred DJAX</h1>
+            <p>
+                All links in <span class="hl">#djaxableBox1</span> will be handled by DJAX.
+            </p>
+
+                By clicking this link you will go to page.html,
+                but only content from page.html that comes from
+                #djaxableBox1 will be considered.
+            </p>
+            <div id="section" class="ddjax-this-block hl">
+                Somewhere
+                <a href="page.html">Next</a>
+            </div>
+            <p>
+                Did you notice the url changed too?
+            </p>
+            <p>
+                To do so, you need to initialize with: 
+            </p>
+<pre>
+//
+// Initialize DDJAX
+//
+$("#djaxableBox1").ddjax({
+    'selector' : '.ddjax-this-block'
+});
+</pre>
+        </div>
+
+        <div class="block">
+            <h1>Complex DOM Replacement</h1>
+            <p>
+                DDJAX generates specs to update multiple DOM blocks.
+
+                <h2>Results:</h2>
+                <ul id="djaxableBox2" class="ddjax-this-block">
+                    <li id="res-pos-1" class="ddjax-this-block">Result1 (position 1)</li>
+                    <li id="res-pos-2" class="ddjax-this-block">Result2 (position 2)</li>
+                    <li id="res-pos-3" class="ddjax-this-block">Result3 (position 3)</li>
+                    <li id="res-pos-4" class="ddjax-this-block">Result4 (position 4)</li>
+                    <li id="res-nav" class="ddjax-this-block"><a href="page.html">next</a></li>
+                    <li id="res-desc" class="ddjax-this-block">
+                        In this case, the first 4 elements will be replaced and
+                        2 extra elements will be added to the DOM.
+                    </li>
+                </ul>
+
+            </p>
+        </div>
+
+        <div class="block">
+            <h1>djaxDeferReplacements spec</h1>
+            <p>
+                DDJAX defer block replacements to the user of the plugin. This
+                allows you to choose the way you replace, prepend or append
+                blocks.
+            </p>
+            <p>
+                To implement dom manipulation specs you need to listen on the djaxDeferReplacements event handler:
+            </p>
+<pre>
+//
+// Implement DOM manipulation specs
+//
+$(window).bind('djaxDeferReplacements', 
+    function (e, specs_array) {
+
+    //
+    // implement spec here
+    //
+    // sample spec in this page source
+    //
+});
+</pre>
+            <p>
+            Each spec in the specs_array can be an object of 2 types:
+            <ul>
+                <li>
+<pre>
+{
+    type: 'function',
+    target: function (...) { },
+    args: [ arg1, arg2, arg3 ]
+}
+</pre>
+                In this case your implementation must call the function and pass the arguments in args.
+                </li>
+                <li>
+<pre>
+{
+    type: 'replace',
+    target: $someTargetBlock, // or an ID
+    new_block: $someJqueryObject
+}
+</pre>
+                In this case your implementation must perform each operation
+                according to task as requested. In this case, type can be:
+                    <ul>
+                        <li>'replace': replace target with new_block. </li>
+                        <li>'prependTo: prepend new_block to target</li>
+                        <li>'insertAfter': insert new_block after target</li>
+
+                    </ul>
+                    <p>
+                    <b>Note</b> that target may be an id rather than a jQuery object.
+                    In this case you are supposed to recover the object from
+                    the current DOM.
+                    </p>
+                </li>
+            </ul>
+
+            </p>
+        </div>
+        <div class="block">
+            <h1>Options</h1>
+            <ul>
+                <li>
+                    <b>
+                        selector (string)
+                    </b>
+                    <p>
+                    the items that have nst-dyn class will be replaced with the
+                    ones from the incoming response.
+                    </p>
+                </li>
+                <li>
+                    <b>
+                        ignoreClass (string)
+                    </b>
+                    <p>
+                        treat &lt;a&gt;nchors having this class as non-ddjaxing.
+                    </p>
+                </li>
+                <li>
+                    <b>
+                        urlDataAttribute (string)
+                    </b>
+                    <p>
+                        use the value of &lt;a&gt;nchors having this data- attribute as a url to navigate to instead of using the href attribute of the anchor.
+                        nst-js-url
+                    </p>
+                </li>
+                <li>
+                    <b>
+                        ajax_data_parameter (object)
+                    </b>
+                    <p>
+                        parameters to send along with the ajax GET request
+                    </p>
+                </li>
+                <li>
+                    <b>
+                        ajax_timeout (number - milliseconds)    
+                    </b>
+                    <p>
+                        if the ajax request is taking more than 10s, load the target page normally
+                    </p>
+                </li>
+                <li>
+                    <b>
+                        ajax_timeout_callback
+                    </b>
+                    <p>
+                        a function that gets called if the ajax request has timed out.
+                    </p>
+                </li>
+            </ul>
+        </div>
+        <div class="block">
+            <h1>Events</h1>
+            Ddjax will fire the following events:
+            <ul>
+                <li>
+                    <b>djaxClick</b>
+                    <p>an anchor link was clicked</p>
+                </li>
+                <li>
+                    <b>djaxLoading</b>
+                    <p>ddjax is about to navigate to the new url</p>
+                </li>
+                <li>
+                    <b>djaxLoad</b>
+                    <p>ddjax has finished loading new content</p>
+                </li>
+                <li>
+                    <b>djaxDeferReplacements</b>
+                    <p>ddjax needs you to run the spec through your implementation (see above for details).</p>
+                </li>
+            </ul>
+        </div>
+
+        <script src="/libs/jquery/jquery-1.11.1.min.js"></script>
+        <script src="/src/jquery.ddjax.js"></script>
+
+        <script type="text/javascript">
+            //
+            // Initialize DDJAX
+            //
+            $("#djaxableBox1, #djaxableBox2").ddjax({
+                'selector' : '.ddjax-this-block'
+            });
+
+            //
+            // Implement DOM manipulation specs
+            //
+            $(window).bind('djaxDeferReplacements', function (e, specs_array) {
+
+                for (var i=0;i<specs_array.length;i++) {
+
+                    var spec = specs_array[i];
+                    var spec_type = spec.type;
+
+                    if (spec_type === 'function') {
+
+                        //
+                        // execute the function
+                        //
+                        spec.target.apply(null, spec.args);
+                    }
+                    else {
+                        var $newBlock = spec.new_block;
+
+                        //
+                        // The spec.target may come in string format, meaning
+                        // we need to pick the dom element ourselves.
+                        //
+                        var $target = 
+                            typeof spec.target === 'string' ?
+                                $('#' + spec.target) : spec.target;
+
+
+                        // execute replacement
+                        switch (spec_type) {
+                            case 'replace':
+                                $target[0].innerHTML = $newBlock[0].innerHTML;
+                                break;
+                            case 'insertAfter':
+                                $newBlock.insertAfter($target);
+                                break;
+                            case 'remove':
+                                $newBlock.remove();
+                                break;
+                            case 'prependTo':
+                                $newBlock.prependTo($target);
+                                break;
+                            default:
+                                $j.error('Unknown spec type: ' + spec_type);
+                        }
+                    }
+                }
+            });
+        </script>
+    </body>
+</html>
