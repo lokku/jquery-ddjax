@@ -1,4 +1,4 @@
-/*! Deferred Dynamic PJAX - v0.1.0 - 2014-05-26
+/*! Deferred Dynamic PJAX - v0.1.0 - 2014-06-13
 * https://github.com/lokku/ddjax
 * Copyright (c) 2014 Lokku Ltd.; Licensed MIT */
 (function ($, window) {
@@ -463,9 +463,12 @@
                         var targetUrl = event.originalEvent.state.url;
 
                         // prevent IE <= 9 to navigate repeatedly to the current url
-                        var url_parts = targetUrl.split("#");
-                        if (url_parts.length === 2) {
-                            if (url_parts[0].indexOf(url_parts[1]) >= 0) {
+                        var url_parts = targetUrl.split("#"),
+                            url_parts_length = url_parts.length;
+
+                        if (url_parts_length >= 2) {
+                            // compare the last two parts
+                            if (url_parts[url_parts_length-2].indexOf(url_parts[url_parts_length-1])) {
                                 popstateUrl = '';
                                 return;
                             }
