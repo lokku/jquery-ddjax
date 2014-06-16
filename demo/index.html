@@ -78,6 +78,22 @@ $("#djaxableBox1").ddjax({
         </div>
 
         <div class="block">
+            <h1>Ignore links with a certain class</h1>
+            <p>
+                DDJAX will ignore &lt;a&lt;nchors that have a specific class.
+
+                <h2>Results</h2>
+                <ul id="djaxableBox3" class="ddjax-this-block">
+                    <li>This link to <a href="page.html" class="no-ddjax">page.html</a> will be ignored by ddjax as it has a class='no-ddjax'</li>
+                    <li>This link to <a href="page.html">page.html</a> will not be ignored by ddjax</li>
+                </ul>
+
+                To ignore links having a certain class you need to specify the
+                ignoreClass option during djax initialization.
+            </p>
+        </div>
+
+        <div class="block">
             <h1>djaxDeferReplacements spec</h1>
             <p>
                 DDJAX defer block replacements to the user of the plugin. This
@@ -225,8 +241,9 @@ $(window).bind('djaxDeferReplacements',
             //
             // Initialize DDJAX
             //
-            $("#djaxableBox1, #djaxableBox2").ddjax({
-                'selector' : '.ddjax-this-block'
+            $("#djaxableBox1, #djaxableBox2, #djaxableBox3").ddjax({
+                'selector' : '.ddjax-this-block',
+                'ignoreClass': 'no-ddjax'
             });
 
             //

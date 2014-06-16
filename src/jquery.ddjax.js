@@ -17,8 +17,8 @@
                 ignoreClass = settings.ignoreClass;
 
             var $groupOfLinks = (typeof ignoreClass !== 'undefined') ?
-                    $this.find('a') :
-                    $this.find('a:not(.' + ignoreClass + ')');
+                    $this.find('a:not(.' + ignoreClass + ')') :
+                    $this.find('a');
 
             return $groupOfLinks;
         },

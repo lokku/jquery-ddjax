@@ -2,7 +2,7 @@
   "name": "ddjax",
   "title": "Deferred Dynamic PJAX",
   "description": "Fork of DJAX with deferred DOM replacements",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "homepage": "https://github.com/lokku/ddjax",
   "author": {
     "name": "Savio Dimatteo",

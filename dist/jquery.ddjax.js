@@ -1,4 +1,4 @@
-/*! Deferred Dynamic PJAX - v0.1.0 - 2014-06-13
+/*! Deferred Dynamic PJAX - v0.1.0 - 2014-06-16
 * https://github.com/lokku/ddjax
 * Copyright (c) 2014 Lokku Ltd.; Licensed MIT */
 (function ($, window) {
@@ -20,8 +20,8 @@
                 ignoreClass = settings.ignoreClass;
 
             var $groupOfLinks = (typeof ignoreClass !== 'undefined') ?
-                    $this.find('a') :
-                    $this.find('a:not(.' + ignoreClass + ')');
+                    $this.find('a:not(.' + ignoreClass + ')') :
+                    $this.find('a');
 
             return $groupOfLinks;
         },
