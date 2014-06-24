@@ -69,6 +69,13 @@ In your web page:
 ## Examples
 See Demo page under demo/
 
+You can run the demo by:
+
+- git clone git@github.com:lokku/jquery-ddjax.git
+- cd jquery-ddjax
+- python -m SimpleHTTPServer
+- browse to http://localhost:8000/demo/
+
 ## Documentation
 See Demo page for documentation as well.
 
