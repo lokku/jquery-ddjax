@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <title>The Main Page</title>
+        <style>
+            #menu {
+                border: 1px solid pink;
+                margin-top: 30px;
+                position: relative;
+            }
+            #menu:before {
+                content: ' div#menu';
+                position: absolute;
+                top: -24px;
+                left: -1px;
+                background: pink;
+                color: #333;
+                font-family: sans;
+                padding: 2px;
+                font-weight: bold;
+            }
+            #main {
+                border: 1px solid pink;
+                margin-top: 30px;
+                position: relative;
+                padding: 1em;
+            }
+            #main:before {
+                content: ' div#main';
+                position: absolute;
+                top: -24px;
+                left: -1px;
+                background: pink;
+                color: #333;
+                font-family: sans;
+                padding: 2px;
+                font-weight: bold;
+            }
+        </style>
+    </head>
+    <body id="thebody">
+        <div id="menu">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="lorem.html">Lorem</a></li>
+            </ul>
+        </div>
+        <div id="main">
+            <h1>The Main section</h1>
+            <p>
+                In this demo we have a fixed <b>#menu</b> and a ddjaxable <b>#main</b> section.
+            </p>
+            <p>
+                Clicking the links from the #menu above should result in this section
+                of the page to be replaced.
+            </p>
+            <p>
+                To achieve this, you need to initialize ddjax like:
+            </p>
+            <pre>
+                $("#menu").ddjax({
+                    'selector' : '#main'
+                });
+            </pre>
+            <ul>
+                <li><b>#menu</b> is the element containing the links we want to be handled by ddjax</li>
+                <li><b>'selector' : '#main'</b> is the selector of the blocks that need to be replaced once the ddjax request is performed</li>
+            </ul>
+            As a result, if you click a link in #menu you will have ddjax to replace #main. If you click <a href="lorem.html">this link</a> it <b>will be treated as a normal link</b> as ddjax wasn't initialized on #main.
+
+            Check out the source for more details!
+        </div>
+
+        <!-- include jquery and ddjax -->
+        <script src="/libs/jquery/jquery-1.11.1.min.js"></script>
+        <script src="/src/jquery.ddjax.js"></script>
+
+        <script type="text/javascript">
+            //
+            // Initialize DDJAX
+            //
+            $("#menu").ddjax({
+                'selector' : '#main'
+            });
+
+            //
+            // Implement DOM manipulation specs
+            //
+            $(window).bind('djaxDeferReplacements', function (e, specs_array) {
+
+                for (var i=0;i<specs_array.length;i++) {
+
+                    var spec = specs_array[i];
+                    var spec_type = spec.type;
+
+                    if (spec_type === 'function') {
+
+                        //
+                        // execute the function
+                        //
+                        spec.target.apply(null, spec.args);
+                    }
+                    else {
+                        var $newBlock = spec.new_block;
+
+                        //
+                        // The spec.target may come in string format, meaning
+                        // we need to pick the dom element ourselves.
+                        //
+                        var $target = 
+                            typeof spec.target === 'string' ?
+                                $('#' + spec.target) : spec.target;
+
+
+                        // execute replacement
+                        switch (spec_type) {
+                            case 'replace':
+                                $target[0].innerHTML = $newBlock[0].innerHTML;
+                                break;
+                            case 'insertAfter':
+                                $newBlock.insertAfter($target);
+                                break;
+                            case 'remove':
+                                $newBlock.remove();
+                                break;
+                            case 'prependTo':
+                                $newBlock.prependTo($target);
+                                break;
+                            default:
+                                $j.error('Unknown spec type: ' + spec_type);
+                        }
+                    }
+                }
+            });
+        </script>
+    </body>
+</html>
